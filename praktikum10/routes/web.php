@@ -27,7 +27,13 @@ Route::get('/', [TampilanController::class, 'index']);
 
 
 Route::group(['middleware' => ['auth']], function () {
-// Routing ke dashboard pake controller
+    
+    Route::get('/after_register', function () {
+        return view('after_register');
+    });
+
+    Route::group(['middleware' => ['auth', 'peran:admin-manager']], function () {
+        // Routing ke dashboard pake controller
 Route::get('/dashboard', [DashboardController::class, 'index']);
 // Routing ke produk pake controller
 Route::get('/produk', [ProdukController::class, 'index']);
@@ -41,6 +47,11 @@ Route::get('/produk/edit/{id}', [ProdukController::class, 'edit']);
 Route::put('/produk/update/{id}', [ProdukController::class, 'update']);
 // untuk delete data 
 Route::get('/produk/delete/{id}', [ProdukController::class, 'destroy']);
+
+
+    });
+    
+
 
 });
 
